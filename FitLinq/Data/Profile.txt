@@ -1,0 +1,4 @@
+weight = 86
+height ft = 5
+height in = 11
+target = 860  

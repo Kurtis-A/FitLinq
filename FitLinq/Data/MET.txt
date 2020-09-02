@@ -1,0 +1,14 @@
+light,Desk Working,1.5
+light,Slow Walking (Casual),2.0
+moderate,Walking (3.0),3.0
+moderate,Janeterial Tasks,3.5
+moderate,Yoga,3.3
+moderate,Tennis Double,5.0
+moderate,Sexual Activites,5.8
+vigorous,aerobic dancing (training),6.0
+vigorous,cycling (flat terrain - light effort),6.0
+vigorous,jumping jacks,6.0
+vigorous,basketball,8.0
+vigorous,swimming (moderate - hard),10
+vigorous,jogging (moderate),8.8
+vigorous,jogging (hard),11.2

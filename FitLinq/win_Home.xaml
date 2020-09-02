@@ -1,0 +1,180 @@
+﻿<Window x:Class="FitLinq.win_Home"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FitLinq"
+        mc:Ignorable="d"
+        Title="Home" Height="800" Width="1300" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" WindowStyle="None" AllowsTransparency="True" MouseDown="Window_MouseDown">
+    <Grid>
+        <!--Add New Entry Dialog Screen-->
+        <materialDesign:DialogHost x:Name="dialog_Addnew">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid>
+                    <Label Content="Add today's step count" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10 10 0 0"/>
+                    <TextBox x:Name="txt_InputSteps" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10 40 10 0" PreviewTextInput="txt_InputSteps_PreviewTextInput"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5 80 0 5">
+                        <Button x:Name="btn_Accept" Style="{DynamicResource MaterialDesignFlatButton}" Foreground="LimeGreen" Click="btn_Accept_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Tick"/>
+                                <TextBlock Text="Accept" Margin="5 0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Foreground="Gray">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Cancel"/>
+                                <TextBlock Text="Cancel" Margin="5 0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
+        <!--Title Card - Product Name-->
+        <materialDesign:Card HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10 10 0 0" Padding="12" Height="50" Width="150">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="Segoe UI Semibold" FontSize="22" Text="Fit" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" Margin="25 0 0 0"/>
+                <TextBlock FontFamily="Segoe UI Semilight" FontSize="22" Text="LINQ" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="LimeGreen" Margin="5 0 0 0"/>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <!--Main Window Controls-->
+        <Button x:Name="win_Close" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 10" Padding="0" Width="30" Height="30" Background="White" BorderBrush="White" Foreground="LimeGreen" Click="win_Close_Click">
+            <materialDesign:PackIcon Kind="WindowClose" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="win_Maximise" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,45,0" Padding="0" Width="30" Height="30" Background="White" BorderBrush="White" Foreground="LimeGreen" Click="win_Maximise_Click">
+            <materialDesign:PackIcon Kind="WindowMaximize" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="win_Minimise" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,80,0" Padding="0" Width="30" Height="30" Background="White" BorderBrush="White" Foreground="LimeGreen" Click="win_Minimise_Click">
+            <materialDesign:PackIcon Kind="WindowMinimize" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Button>
+
+        <!--Information - Today's Date-->
+        <materialDesign:Card HorizontalAlignment="Left" VerticalAlignment="Top" Margin="165,10,0,0" Padding="12" Height="50" Width="150">
+            <TextBlock x:Name="txb_Date" FontFamily="Segoe UI Semilight" FontSize="16" Text="#DATE#" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" Margin="5 0 0 0"/>
+        </materialDesign:Card>
+
+        <!--Add New Entry Control-->
+        <Button x:Name="btn_AddNew" HorizontalAlignment="Left" Margin="330,16,0,0" VerticalAlignment="Top" Width="40" Height="40" Style="{DynamicResource MaterialDesignFloatingActionButton}" Background="LimeGreen" BorderBrush="LimeGreen" Foreground="White" ToolTip="Add new entry" Click="btn_AddNew_Click">
+            <materialDesign:PackIcon Kind="Plus" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Button>
+
+        <!--Show Period-->
+        <materialDesign:PackIcon Kind="Calendar" HorizontalAlignment="Left" Margin="120,96,0,0" VerticalAlignment="Top" Height="21" Width="21" Foreground="Gray"/>
+        <ComboBox x:Name="cmb_ShowPeriod" HorizontalAlignment="Left" Margin="15,92,0,0" VerticalAlignment="Top" Width="100" Style="{DynamicResource MaterialDesignComboBox}" materialDesign:HintAssist.Hint="Show Period" IsEnabled="False">
+            <ComboBoxItem Content="Weekly"/>
+            <ComboBoxItem Content="Monthly"/>
+            <ComboBoxItem Content="Yearly"/>
+            <ComboBoxItem Content="Lifetime"/>
+        </ComboBox>
+
+        <Label x:Name="lbl_ShowPeriod" Content="Last XX Days" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Foreground="LimeGreen" FontFamily="Segoe UI Semibold" FontSize="20"/>
+        <materialDesign:Card HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" Height="580" Width="735">
+            <ListView x:Name="lst_StepCount" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="Gray" Background="Transparent">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Steps" Width="100" DisplayMemberBinding="{Binding Steps}"/>
+                        <GridViewColumn Header="Miles" Width="100" DisplayMemberBinding="{Binding Miles}"/>
+                        <GridViewColumn Header="Calories" Width="100" DisplayMemberBinding="{Binding Calories}"/>
+                        <GridViewColumn Header="oDate" Width="1"/>
+                    </GridView>
+                </ListView.View>
+
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Expander IsExpanded="False" Background="Transparent">
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                                        <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="LimeGreen" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                        <TextBlock Text=" Entry(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <ItemsPresenter />
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+        </materialDesign:Card>
+
+        <!--7 Day Running Totals-->
+        <Label x:Name="lbl_TotalSteps" Content="#Data#" HorizontalAlignment="Left" Margin="56,157,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Segoe UI Semilight" FontStyle="Italic" Foreground="Gray"/>
+        <Label Content="Steps:" HorizontalAlignment="Left" Margin="10,157,0,0" VerticalAlignment="Top" Foreground="Gray" FontFamily="Segoe UI Semibold" FontSize="14"/>
+        <Label Content="Miles:" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Foreground="Gray" FontFamily="Segoe UI Semibold" FontSize="14"/>
+        <Label x:Name="lbl_TotalMiles" Content="#Data#" HorizontalAlignment="Left" Margin="55,178,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Segoe UI Semilight" FontStyle="Italic" Foreground="Gray"/>
+        <Label Content="Calories:" HorizontalAlignment="Left" Margin="200,157,0,0" VerticalAlignment="Top" Foreground="Gray" FontFamily="Segoe UI Semibold" FontSize="14"/>
+        <Label x:Name="lbl_TotalCal" Content="#Data#" HorizontalAlignment="Left" Margin="262,157,0,0" VerticalAlignment="Top" FontSize="14" FontFamily="Segoe UI Semilight" FontStyle="Italic" Foreground="Gray"/>
+
+
+        <materialDesign:Card HorizontalAlignment="Left" Margin="767,210,0,0" VerticalAlignment="Top" Height="250" Width="250">
+            <Grid>
+                <Label Content="Profile" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="20" Foreground="LimeGreen" Margin="10 10 0 0"/>
+                <Label Content="Weight (KG)" HorizontalAlignment="Left" Margin="5,47,0,0" VerticalAlignment="Top" FontSize="10"/>
+                <TextBox x:Name="txt_Weight" HorizontalAlignment="Left" Height="25" Margin="10,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="137" materialDesign:HintAssist.Hint="Weight (KG)" IsEnabled="False"/>
+                <TextBox x:Name="txt_ftHeight" HorizontalAlignment="Left" Height="25" Margin="10,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="66" materialDesign:HintAssist.Hint="Height (ft)" IsEnabled="False"/>
+                <TextBox x:Name="txt_inHeight" HorizontalAlignment="Left" Height="25" Margin="81,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="66" materialDesign:HintAssist.Hint="Height (in)" IsEnabled="False"/>
+                <Label Content="Height (ft in)" HorizontalAlignment="Left" Margin="5,105,0,0" VerticalAlignment="Top" FontSize="10"/>
+                <TextBox x:Name="txt_TargetCal" HorizontalAlignment="Left" Height="25" Margin="10,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="137" materialDesign:HintAssist.Hint="Daily Calorie Target" IsEnabled="False"/>
+                <Label Content="Daily Calorie Target" HorizontalAlignment="Left" Margin="5,162,0,0" VerticalAlignment="Top" FontSize="10"/>
+                <Button x:Name="btn_ProfileAccept" HorizontalAlignment="Right" Margin="0,220,10,0" VerticalAlignment="Top" Width="20" Height="20" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="LimeGreen" ToolTip="Accept Changes" Click="btn_ProfileAccept_Click" Visibility="Hidden">
+                    <materialDesign:PackIcon Kind="Tick" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+                <Button x:Name="btn_ProfileReject" HorizontalAlignment="Right" Margin="0,220,40,0" VerticalAlignment="Top" Width="20" Height="20" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="LimeGreen" ToolTip="Reject Changes" Click="btn_ProfileReject_Click" Visibility="Hidden">
+                    <materialDesign:PackIcon Kind="WindowClose" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+                <Button x:Name="btn_EditProfile" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="20" Height="20" Padding="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="LimeGreen" ToolTip="Edit Profile" Click="btn_EditProfile_Click">
+                    <materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:Card HorizontalAlignment="Left" Margin="767,484,0,0" VerticalAlignment="Top" Height="306" Width="250">
+            <Grid>
+                <Label Content="Weight History" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="20" Foreground="LimeGreen" Margin="10 10 0 0"/>
+                <ListView x:Name="lst_Weight" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0 60 0 0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Date" Width="100" DisplayMemberBinding="{Binding wDate}"/>
+                            <GridViewColumn Header="Weight (KG)" Width="auto" DisplayMemberBinding="{Binding Weight}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:Card HorizontalAlignment="Left" Margin="1040,210,0,0" VerticalAlignment="Top" Height="250" Width="250">
+            <Grid>
+                <Label Content="Progress" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="20" Foreground="LimeGreen" Margin="10 10 0 0"/>
+                <Label x:Name="lbl_progressPeriod" Content="#Period#" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" FontSize="10"/>
+                <ProgressBar x:Name="prog_TgtProgress" HorizontalAlignment="Center" Height="169" Margin="0,71,0,0" VerticalAlignment="Top" Width="169" Style="{DynamicResource MaterialDesignCircularProgressBar}" Value="99" Foreground="Gray" Maximum="101"/>
+                <Label x:Name="lbl_progressNumber" Content="#Data#" HorizontalAlignment="Center" Margin="0,135,0,0" VerticalAlignment="Top" FontSize="22" Foreground="LimeGreen"/>
+
+            </Grid>
+        </materialDesign:Card>
+        <materialDesign:Card HorizontalAlignment="Left" Margin="1040,484,0,0" VerticalAlignment="Top" Height="306" Width="250">
+            <Grid>
+                <Label Content="Target History" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="20" Foreground="LimeGreen" Margin="10 10 0 0"/>
+                <ListView x:Name="lst_TargetHistory" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0 60 0 0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Date" Width="100" DisplayMemberBinding="{Binding Category}"/>
+                            <GridViewColumn Header="Target (Kcal)" Width="auto" DisplayMemberBinding="{Binding Description}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </materialDesign:Card>
+
+    </Grid>
+</Window>
